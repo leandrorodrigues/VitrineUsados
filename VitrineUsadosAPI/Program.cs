@@ -4,6 +4,7 @@ using Microsoft.OpenApi.Models;
 using System.Xml.Linq;
 using VitrineUsadosAPI.Helpers;
 using VitrineUsadosAPI.Services;
+using WebApi.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,7 @@ builder.Services.AddDbContext<DataContext>();
 builder.Services.AddControllers();
 
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+builder.Services.AddScoped<ICarroService, CarroService>();
 
 var app = builder.Build();
 
@@ -29,7 +31,7 @@ using (var scope = app.Services.CreateScope())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+app.UseMiddleware<JwtMiddleware>();
 
 app.MapControllers();
 

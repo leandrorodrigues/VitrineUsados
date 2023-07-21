@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using VitrineUsadosAPI.Helpers;
 using VitrineUsadosAPI.Models;
+using VitrineUsadosAPI.Services;
 using WebApi.Authorization;
 
 namespace VitrineUsadosAPI.Controllers
@@ -16,42 +17,43 @@ namespace VitrineUsadosAPI.Controllers
     [ApiController]
     public class CarrosController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly ICarroService _service;
 
-        public CarrosController(DataContext context)
+
+		public CarrosController(ICarroService service)
         {
-            _context = context;
+            _service = service;
         }
 
         // GET: api/Carros
         [HttpGet]
+        [Publico]
         public async Task<ActionResult<IEnumerable<Carro>>> GetCarros()
         {
-          if (_context.Carros == null)
-          {
-              return NotFound();
-          }
-            return await _context.Carros.ToListAsync();
+            var carros = await _service.Todos();
+
+            if (carros == null)
+            {
+                return NotFound();
+            }
+            return Ok(carros);
         }
 
         // GET: api/Carros/5
         [HttpGet("{id}")]
+        [Publico]
         public async Task<ActionResult<Carro>> GetCarro(int id)
         {
-          if (_context.Carros == null)
-          {
-              return NotFound();
-          }
-            var carro = await _context.Carros.FindAsync(id);
+            var carro = await _service.Obter(id);
 
             if (carro == null)
             {
                 return NotFound();
             }
-
-            return carro;
+           
+            return Ok(carro);
         }
-
+        /*
         // PUT: api/Carros/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -121,6 +123,6 @@ namespace VitrineUsadosAPI.Controllers
         private bool CarroExists(int id)
         {
             return (_context.Carros?.Any(e => e.Id == id)).GetValueOrDefault();
-        }
+        }*/
     }
 }

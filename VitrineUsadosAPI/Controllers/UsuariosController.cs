@@ -37,8 +37,13 @@ namespace VitrineUsadosAPI.Controllers
             }
             catch (Exception ex)
             {
-                return Unauthorized(ex.Message);
-            }
+                return new JsonResult(
+				    new { message = "Não Autorizado" }
+			    )
+				{
+					StatusCode = StatusCodes.Status401Unauthorized
+				};
+			}
 
             return Ok(response);
         }
