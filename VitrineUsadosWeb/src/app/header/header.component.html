@@ -1,0 +1,11 @@
+<mat-toolbar class="toolbar">
+    <span><a routerLink="/">Vitrine dos Carros</a></span>
+    <span class="espacador"></span>
+    <span *ngIf="estaLogado">
+        <span class="nome-usuario">Usuário: {{usuario?.nome}}</span> 
+        <button mat-button (click)="logout()">Logout</button>
+    </span>
+    <span *ngIf="!estaLogado">
+        <a routerLink="login/" >Login</a>
+    </span>
+</mat-toolbar>

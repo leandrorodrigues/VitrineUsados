@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
@@ -16,14 +17,20 @@ export class LoginComponent {
   });
 
   constructor(
-    private usuarioService: UsuarioService
+    private usuarioService: UsuarioService,
+    private router: Router
   ) {}
 
   login() {
     if(!this.loginForm.valid)
       return;
 
-    this.usuarioService.login(this.loginForm.value.email, this.loginForm.value.senha);
+    this.usuarioService.login(this.loginForm.value.email, this.loginForm.value.senha).subscribe({
+      next: () => this.router.navigateByUrl("/admin"),
+      error: () => {
+        alert("E-mail ou senha inválidos.")
+      }
+    });
   }
 
 }
