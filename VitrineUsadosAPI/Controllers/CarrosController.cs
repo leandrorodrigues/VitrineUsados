@@ -53,9 +53,8 @@ namespace VitrineUsadosAPI.Controllers
            
             return Ok(carro);
         }
-        /*
+        
         // PUT: api/Carros/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCarro(int id, Carro carro)
         {
@@ -64,65 +63,41 @@ namespace VitrineUsadosAPI.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(carro).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                await _service.Editar(carro);
             }
-            catch (DbUpdateConcurrencyException)
+            catch
             {
-                if (!CarroExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return NotFound(); 
             }
 
             return NoContent();
         }
 
         // POST: api/Carros
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Carro>> PostCarro(Carro carro)
         {
-          if (_context.Carros == null)
-          {
-              return Problem("Entity set 'DataContext.Carros'  is null.");
-          }
-            _context.Carros.Add(carro);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetCarro", new { id = carro.Id }, carro);
+          await _service.Salvar(carro);
+          return CreatedAtAction("GetCarro", new { id = carro.Id }, carro);
         }
 
         // DELETE: api/Carros/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCarro(int id)
         {
-            if (_context.Carros == null)
+            try
+            {
+                await _service.Excluir(id);
+            }
+            catch
             {
                 return NotFound();
             }
-            var carro = await _context.Carros.FindAsync(id);
-            if (carro == null)
-            {
-                return NotFound();
-            }
-
-            _context.Carros.Remove(carro);
-            await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool CarroExists(int id)
-        {
-            return (_context.Carros?.Any(e => e.Id == id)).GetValueOrDefault();
-        }*/
     }
 }

@@ -1,0 +1,38 @@
+<div class="container">
+    <h1>Novo Carro</h1>
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Nome</mat-label>
+            <input matInput [(ngModel)] ="carro.nome" />
+          </mat-form-field>
+        </div>
+   
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Marca</mat-label>
+            <input matInput [(ngModel)] ="carro.marca"/>
+          </mat-form-field>
+        </div>
+
+        <div>
+            <mat-form-field appearance="outline">
+              <mat-label>Modelo</mat-label>
+              <input matInput [(ngModel)] ="carro.modelo"/>
+            </mat-form-field>
+        </div>
+
+        <div>
+              <label>Foto</label>
+            <div>
+              <input type="file" id="foto-input" name="foto-input" accept="image/*" (change)="obterFoto($event)" />
+            </div>
+            <div>
+                <img [src]="carro.foto?? 'https://placehold.co/360x240' " class="foto" />
+            </div>
+        </div>
+
+        <div>
+          <button mat-raised-button color="primary" (click)="salvar()">Salvar</button>
+        </div>
+  </div>
+  

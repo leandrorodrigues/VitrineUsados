@@ -28,6 +28,12 @@ using (var scope = app.Services.CreateScope())
 	context.Database.Migrate();
 }
 
+app.UseCors(x => x
+	.AllowAnyOrigin()
+	.AllowAnyMethod()
+	.AllowAnyHeader());
+
+
 
 app.UseHttpsRedirection();
 

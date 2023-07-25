@@ -16,7 +16,7 @@ public class JwtMiddleware
         var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
         if (token != null)
         {
-            var usuario = usuarioService.ValidarToken(token);
+            var usuario = await usuarioService.ValidarToken(token);
             if (usuario != null)
             {
                 context.Items["Usuario"] = usuario;
