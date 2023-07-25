@@ -35,7 +35,7 @@ app.UseCors(x => x
 
 
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseMiddleware<JwtMiddleware>();
 
